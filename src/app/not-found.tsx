@@ -1,0 +1,18 @@
+import Link from "next/link";
+
+export default function NotFound() {
+  return (
+    <div className="min-h-[60vh] flex items-center justify-center px-6">
+      <div className="text-center space-y-4">
+        <h2 className="font-heading text-2xl">Page Not Found</h2>
+        <p className="text-text-muted">The page you&apos;re looking for doesn&apos;t exist.</p>
+        <Link
+          href="/"
+          className="inline-block bg-primary hover:bg-primary-hover text-white text-sm font-heading px-6 py-2.5 rounded-lg transition-colors tracking-wider uppercase"
+        >
+          Go Home
+        </Link>
+      </div>
+    </div>
+  );
+}

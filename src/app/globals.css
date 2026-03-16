@@ -1,0 +1,70 @@
+@import "tailwindcss";
+
+@theme {
+  --color-bg: #000000;
+  --color-surface: #18181B;
+  --color-surface-hover: #27272A;
+  --color-border: #3F3F46;
+  --color-primary: #F97316;
+  --color-primary-hover: #EA580C;
+  --color-secondary: #38BDF8;
+  --color-secondary-hover: #0EA5E9;
+  --color-text: #FFFFFF;
+  --color-text-muted: #A1A1AA;
+  --color-text-dim: #71717A;
+  --color-success: #22C55E;
+  --color-error: #EF4444;
+
+  --font-heading: "Cinzel", serif;
+  --font-display: "Cinzel Decorative", serif;
+  --font-body: "Cormorant Garamond", serif;
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: 17px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background-color: var(--color-primary);
+  color: var(--color-text);
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-text-dim);
+}
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0.15; }
+  50% { opacity: 0.9; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
+
+.animate-twinkle {
+  animation: twinkle 3s ease-in-out infinite;
+}
+
+.animate-float {
+  animation: float 4s ease-in-out infinite;
+}
