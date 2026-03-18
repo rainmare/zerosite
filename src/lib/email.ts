@@ -1,7 +1,12 @@
 import { Resend } from "resend";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
-const readerEmail = process.env.READER_EMAIL!;
+function getResend() {
+  return new Resend(process.env.RESEND_API_KEY);
+}
+
+function getReaderEmail() {
+  return process.env.READER_EMAIL!;
+}
 
 type BookingEmailData = {
   clientName: string;
@@ -16,6 +21,9 @@ type BookingEmailData = {
 export async function sendBookingConfirmation(data: BookingEmailData) {
   const { clientName, clientEmail, serviceTier, date, time, platform, notes } =
     data;
+
+  const resend = getResend();
+  const readerEmail = getReaderEmail();
 
   const clientEmailResult = await resend.emails.send({
     from: "Celestial Pathways <bookings@celestialpathways.com>",

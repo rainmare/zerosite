@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 import { redirect } from "next/navigation";
-import { stripe } from "@/lib/stripe";
+import { getStripe } from "@/lib/stripe";
 import { BookingForm } from "@/components/BookingForm";
 import { SERVICE_TIERS } from "@/lib/constants";
 
@@ -24,7 +24,7 @@ export default async function BookPage({ searchParams }: Props) {
   let tierName = "Reading";
 
   try {
-    const session = await stripe.checkout.sessions.retrieve(sessionId);
+    const session = await getStripe().checkout.sessions.retrieve(sessionId);
 
     if (session.payment_status !== "paid") {
       redirect("/services");

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { supabase } from "@/lib/supabase";
-import { stripe } from "@/lib/stripe";
+import { getSupabase } from "@/lib/supabase";
+import { getStripe } from "@/lib/stripe";
 import { sendBookingConfirmation } from "@/lib/email";
 import { rateLimit } from "@/lib/rate-limit";
 import { SERVICE_TIERS } from "@/lib/constants";
@@ -55,7 +55,7 @@ export async function POST(req: NextRequest) {
     }
 
     // Verify the Stripe session is paid
-    const session = await stripe.checkout.sessions.retrieve(sessionId);
+    const session = await getStripe().checkout.sessions.retrieve(sessionId);
     if (session.payment_status !== "paid") {
       return NextResponse.json(
         { error: "Payment not verified." },
@@ -67,7 +67,7 @@ export async function POST(req: NextRequest) {
     const tier = SERVICE_TIERS.find((t) => t.id === tierId);
 
     // Check slot availability
-    const { data: existing } = await supabase
+    const { data: existing } = await getSupabase()
       .from("bookings")
       .select("id")
       .eq("date", date)
@@ -81,7 +81,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const { data: blocked } = await supabase
+    const { data: blocked } = await getSupabase()
       .from("blocked_slots")
       .select("id")
       .eq("date", date)
@@ -96,7 +96,7 @@ export async function POST(req: NextRequest) {
     }
 
     // Create booking
-    const { error: insertError } = await supabase.from("bookings").insert({
+    const { error: insertError } = await getSupabase().from("bookings").insert({
       client_name: clientName,
       client_email: clientEmail,
       service_tier: tierId,
@@ -150,12 +150,12 @@ export async function GET(req: NextRequest) {
     );
   }
 
-  const { data: bookings } = await supabase
+  const { data: bookings } = await getSupabase()
     .from("bookings")
     .select("time")
     .eq("date", date);
 
-  const { data: blocked } = await supabase
+  const { data: blocked } = await getSupabase()
     .from("blocked_slots")
     .select("time")
     .eq("date", date);

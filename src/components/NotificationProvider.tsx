@@ -2,7 +2,6 @@
 
 import { createContext, useContext, useState, useEffect, useCallback } from "react";
 import { useAuth } from "./AuthProvider";
-import { supabaseBrowser } from "@/lib/supabase-browser";
 
 export type Notification = {
   id: string;

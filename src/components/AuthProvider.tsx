@@ -1,7 +1,7 @@
 "use client";
 
 import { createContext, useContext, useEffect, useState } from "react";
-import { supabaseBrowser } from "@/lib/supabase-browser";
+import { getSupabaseBrowser } from "@/lib/supabase-browser";
 import type { User } from "@supabase/supabase-js";
 
 type AuthContextType = {
@@ -27,14 +27,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    supabaseBrowser.auth.getSession().then(({ data: { session } }) => {
+    getSupabaseBrowser().auth.getSession().then(({ data: { session } }) => {
       setUser(session?.user ?? null);
       setLoading(false);
     });
 
     const {
       data: { subscription },
-    } = supabaseBrowser.auth.onAuthStateChange((_event, session) => {
+    } = getSupabaseBrowser().auth.onAuthStateChange((_event, session) => {
       setUser(session?.user ?? null);
     });
 
@@ -42,7 +42,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   async function signInWithGoogle() {
-    await supabaseBrowser.auth.signInWithOAuth({
+    await getSupabaseBrowser().auth.signInWithOAuth({
       provider: "google",
       options: {
         redirectTo: `${window.location.origin}/services`,
@@ -51,7 +51,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }
 
   async function signOut() {
-    await supabaseBrowser.auth.signOut();
+    await getSupabaseBrowser().auth.signOut();
     setUser(null);
   }
 
