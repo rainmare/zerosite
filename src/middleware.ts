@@ -19,7 +19,7 @@ export function middleware(request: NextRequest) {
       `font-src 'self' https://fonts.gstatic.com`,
       `img-src 'self' data: blob: https://lh3.googleusercontent.com https://*.googleusercontent.com`,
       `frame-src https://challenges.cloudflare.com https://js.stripe.com https://accounts.google.com`,
-      `connect-src 'self' https://api.stripe.com https://*.supabase.co`,
+      `connect-src 'self' https://api.stripe.com https://*.supabase.co https://accounts.google.com`,
       `media-src 'self'`,
     ].join("; ")
   );
@@ -29,6 +29,6 @@ export function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
-    "/((?!api|_next/static|_next/image|favicon.ico|robots.txt|sitemap.xml).*)",
+    "/((?!api|_next/static|_next/image|favicon.ico|robots.txt|sitemap.xml|auth).*)",
   ],
 };
