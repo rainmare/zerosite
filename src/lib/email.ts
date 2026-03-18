@@ -26,7 +26,7 @@ export async function sendBookingConfirmation(data: BookingEmailData) {
   const readerEmail = getReaderEmail();
 
   const clientEmailResult = await resend.emails.send({
-    from: "Celestial Pathways <bookings@celestialpathways.com>",
+    from: "irido.space <bookings@irido.space>",
     to: clientEmail,
     subject: "Your Reading is Booked! ✨",
     html: `
@@ -62,13 +62,13 @@ export async function sendBookingConfirmation(data: BookingEmailData) {
           please reply to this email.
         </p>
         
-        <p style="color: #38BDF8; margin-top: 24px;">— Celestial Pathways</p>
+        <p style="color: #38BDF8; margin-top: 24px;">— irido.space</p>
       </div>
     `,
   });
 
   const readerEmailResult = await resend.emails.send({
-    from: "Celestial Pathways <bookings@celestialpathways.com>",
+    from: "irido.space <bookings@irido.space>",
     to: readerEmail,
     subject: `New Booking: ${serviceTier} — ${clientName}`,
     html: `

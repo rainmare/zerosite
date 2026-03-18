@@ -6,7 +6,7 @@ import { READER_NAME } from "@/lib/constants";
 export const metadata: Metadata = {
   title: "About",
   description:
-    "Learn about your astrology reader and the journey behind Celestial Pathways.",
+    "Learn about your reader and the journey behind irido.space.",
 };
 
 export default function AboutPage() {

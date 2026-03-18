@@ -1,4 +1,4 @@
-export const SITE_NAME = "Celestial Pathways";
+export const SITE_NAME = "irido.space";
 export const SITE_DESCRIPTION =
   "Personalized numerology readings to help you understand your life path, strengths, and direction.";
 export const READER_NAME = "Zero";
