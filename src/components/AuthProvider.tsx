@@ -27,32 +27,49 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    getSupabaseBrowser().auth.getSession().then(({ data: { session } }) => {
-      setUser(session?.user ?? null);
+    let subscription: { unsubscribe: () => void } | null = null;
+
+    try {
+      const supabase = getSupabaseBrowser();
+
+      supabase.auth.getSession().then(({ data: { session } }) => {
+        setUser(session?.user ?? null);
+        setLoading(false);
+      }).catch(() => {
+        setLoading(false);
+      });
+
+      const { data } = supabase.auth.onAuthStateChange((_event, session) => {
+        setUser(session?.user ?? null);
+      });
+      subscription = data.subscription;
+    } catch {
       setLoading(false);
-    });
+    }
 
-    const {
-      data: { subscription },
-    } = getSupabaseBrowser().auth.onAuthStateChange((_event, session) => {
-      setUser(session?.user ?? null);
-    });
-
-    return () => subscription.unsubscribe();
+    return () => subscription?.unsubscribe();
   }, []);
 
   async function signInWithGoogle() {
-    await getSupabaseBrowser().auth.signInWithOAuth({
-      provider: "google",
-      options: {
-        redirectTo: `${window.location.origin}/services`,
-      },
-    });
+    try {
+      await getSupabaseBrowser().auth.signInWithOAuth({
+        provider: "google",
+        options: {
+          redirectTo: `${window.location.origin}/services`,
+        },
+      });
+    } catch {
+      console.error("Google sign-in failed");
+    }
   }
 
   async function signOut() {
-    await getSupabaseBrowser().auth.signOut();
-    setUser(null);
+    try {
+      await getSupabaseBrowser().auth.signOut();
+      setUser(null);
+    } catch {
+      console.error("Sign out failed");
+    }
   }
 
   return (
